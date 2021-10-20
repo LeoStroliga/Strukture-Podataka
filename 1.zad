@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
+typedef struct _student
+{
+char ime[128];
+char prezime[128];
+int bodovi;
+double relbod;
+}student;
+
+int brojredaka()
+{  int broj=0;
+    char s[128];
+
+   
+   FILE* popis;
+  
+    if(popis=fopen("datoteka.txt","r"))
+      {
+         while(feof(popis)==0)
+        { 
+           fgets(s,128,popis);
+           broj++;
+        }
+      fclose(popis);
+      return broj;
+      }
+   else 
+  {fclose(popis);
+      return -1;
+  }  
+}
+
+student* ucitavanje(int brred,int* max)
+{   int i=0;
+    student* studenti=(student*)malloc(brred*sizeof(student));
+    FILE* popis=fopen("datoteka.txt","r");
+   
+     for(i=0;i<brred;i++)
+     {
+       fscanf(popis," %s %s %d",studenti[i].ime,studenti[i].prezime,&studenti[i].bodovi);
+       
+      if(*max<studenti[i].bodovi)
+       *max=studenti[i].bodovi;
+     } 
+    fclose(popis);
+    return studenti;
+}
+
+
+int main()
+{
+  
+int brredaka=brojredaka();
+if(brredaka==-1)
+printf("Datoteka ne postoji");
+else if(brredaka==0)
+printf("Nema podatak u datoteci");
+else{
+  int max=0; 
+  int i=0; 
+  
+  student* studenti;
+  
+    studenti=ucitavanje(brredaka,&max);
+    printf("%d",max);
+    for(i=0;i<brredaka;i++)
+    {studenti[i].relbod=(double)(studenti[i].bodovi*100.0)/max;
+       printf("%s %s %d %lf \n",studenti[i].ime,studenti[i].prezime,studenti[i].bodovi,studenti[i].relbod);
+    }
+return 0;
+}
+    return 0;
+}
+
+
+
