@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
+
+typedef struct _osoba
+{
+char ime[128];
+char prezime[128];
+int godina;
+struct osoba *pok;
+}osoba;
+
+void dodaj(osoba *pokprije)
+{
+    osoba nova;
+    nova.pok=pokprije;
+    pokprije=&nova;
+    scanf("%s",nova.ime);
+    scanf("%s",nova.prezime);
+    scanf("%d",nova.godina);
+}
+void izbrisi(int a, osoba *poz)
+{
+  int i;
+  osoba *pozposlije;
+     for(i=0;i<a-1;i++)
+     {
+      poz=poz->pok;
+     }
+     pozposlije=poz->pok;
+     free(poz->pok);
+     poz->pok=pozposlije->pok;
+    
+}
+
+
+int main()
+{
+  osoba lista;
+  *lista.ime=NULL;
+  *lista.prezime=NULL;
+  lista.godina=NULL;
+  lista.pok=NULL;
+  int brojdodanih;
+  int i=0;
+
+       for(i=0;i<brojdodanih;i++)
+       {
+             dodaj(lista.pok);
+       }
+  int n;
+  scanf("%d",&n);
+  izbrisi(n,lista.pok);
+  return 0;
+}
