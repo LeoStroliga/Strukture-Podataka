@@ -1,0 +1,171 @@
+#include<stdio.h>
+  int main()
+  {
+      int a;
+      scanf_s("%d", &a);
+    printf("OK");
+    return 0;
+  }
+
+struct _osoba;
+typedef struct _osoba* pozicija;
+typedef struct _osoba
+{
+    char ime[64];
+    char prezime[64];
+    int godina;
+    pozicija sljedeci;
+}osoba;
+
+
+pozicija napraviosobu()
+{
+    pozicija nova = NULL;
+    nova = (pozicija)malloc(sizeof(osoba));
+    char ime[64];
+    char prezime[64];
+    int godina;
+    scanf(" %s %s %s", ime, prezime, &godina);
+    strcpy(nova->ime, ime);
+    strcpy(nova->prezime, prezime);
+    nova->godina = godina;
+    nova->sljedeci = NULL;
+    return nova;
+}
+
+
+int dodajnapocetak(pozicija head) //prima head
+{
+    pozicija nova = NULL;
+    nova = (pozicija)malloc(sizeof(osoba));
+    head->sljedeci = nova;
+
+}
+
+int dodajnakraj(pozicija prije) //prima head
+{
+    pozicija nova = NULL;
+    pozicija temp;
+    temp = prije->sljedeci;
+    nova = (pozicija)malloc(sizeof(osoba));
+    for(;temp!=NULL;prije = temp,temp=prije->sljedeci)
+    temp= nova;
+    return 0;
+}
+
+pozicija pronadi(pozicija head, char* prezime)
+{
+    pozicija temp=head->sljedeci;
+
+    for (; temp != NULL; strcmp(temp->prezime, prezime) != 0, head = temp, temp = head->sljedeci)
+
+        return temp;
+
+}
+
+int obrisi(pozicija head, char* prezime)
+{
+    pozicija odredeni;
+    odredeni = pronadi(head, prezime);
+    pozicija temp;
+    temp = head->sljedeci;
+    for (; temp->sljedeci != odredeni; head = temp, temp = head->sljedeci)
+
+        temp->sljedeci = odredeni->sljedeci;
+    free(odredeni);
+    return 0;
+
+}
+
+int dodajiza(pozicija head, char* koga)
+{
+    pozicija novi;
+    pozicija prije;
+    pozicija temp;
+    temp = head;
+    prije= pronadi(head, koga);
+    novi = napraviosobu();
+    temp = head->sljedeci;
+    for (; temp->sljedeci != prije; head = temp, temp = head->sljedeci);
+    novi->sljedeci = prije->sljedeci;
+    prije->sljedeci = novi;
+}
+int dodajprije(pozicija head, char* koga)
+{
+    pozicija novi;
+    pozicija iza;
+    pozicija temp;
+    novi = napraviosobu();
+    iza = pronadi(head, koga);
+    for (; temp->sljedeci != iza; head = temp, temp = head->sljedeci)
+       
+    dodajiza(head, iza->prezime);
+
+}
+
+int sortiunos(pozicija head)
+{
+    pozicija novi = NULL;
+    pozicija temp = head;
+    novi = napraviosobu();
+
+
+    while (temp->sljedeci != NULL && strcmp(temp->sljedeci->prezime, novi->prezime < 0)
+        temp = temp->sljedeci;
+    novi->sljedeci = temp->sljedeci;
+    temp->sljedeci = novi;
+
+    return 0;
+}
+
+int ucitavanjeiz(pozicija head, char* imedatoteke)
+{
+    char buffer[1024];
+    char ime[50];
+    char prezime[50];
+    int godina;
+    pozicija nova = NULL;
+    pozicija temp = head;
+    FILE* f = NULL;
+    f = fopen(imedatoteke, "r");
+    while (feof(f) == 0)
+    {        
+        fgets(buffer, 1024, f);
+        if (ssscanf(buffer, " %s %s %d", ime, prezime, &godina) == 3)
+        {
+            nova = (pozicija) malloc(sizeof(osoba));
+            strcpy(nova->ime, ime);
+            strcpy(nova->prezime, prezime);
+            nova->godina = godina;
+            temp = temp->sljedeci;
+        }
+}
+    return 0;
+
+}
+
+int unosudat(pozicija head, char* ime)
+{
+    FILE* f=NULL;
+    pozicija temp = NULL;
+    temp = head;
+    f = fopen(ime, "w");
+    while (temp->sljedeci != NULL)
+    {
+        fprintf(f, "%s %s %d", temp->next->ime, temp->next->prezime, temp->next->godina);
+        temp = temp->sljedeci;
+    }
+    return 0;
+}
+
+int main()
+{
+    osoba head = { .sljedeci = NULL, .ime = {0}, .prezime = {0}, .godina = 0 };
+    pozicija p = &head;
+    pozicija a, b, c;
+        a = napraviosobu();
+        b = napraviosobu();
+        c = napraviosobu(); 
+
+
+}
