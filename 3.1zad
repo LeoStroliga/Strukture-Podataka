@@ -1,0 +1,180 @@
+struct _osoba;
+typedef struct _osoba* pozicija;
+typedef struct _osoba
+{
+    char ime[64];
+    char prezime[64];
+    int godina;
+    pozicija pok;
+}osoba;
+
+
+pozicija napraviosobu(char *ime,char *prezime,int godina)
+{
+    pozicija nova=NULL;
+    nova = (pozicija)malloc(sizeof(osoba));
+    if (!nova)
+        return -1;
+    
+    strcpy(nova->ime, ime);
+    strcpy(nova->prezime, prezime);
+    nova->godina = godina;
+    nova->pok = NULL;
+    return nova;
+}
+
+int dodajnapocetak(pozicija b,pozicija head)
+{
+    
+    b->pok = head->pok;
+    head->pok = b;
+    return 0;
+}
+
+int dodajnakraj(pozicija b, pozicija head)
+{
+    pozicija temp=NULL;
+    
+    for (temp = head->pok; temp->pok != NULL; temp = temp->pok)
+    {
+    }
+     temp->pok = b;
+       b->pok = NULL;
+   return 0;
+}
+
+int ispisilistu(pozicija head)
+{
+    pozicija temp=NULL;
+    temp = head->pok;
+    while (temp!= NULL)
+    {
+        printf("%s %s %d \n", temp->ime, temp->prezime, temp->godina);
+        temp = temp->pok;
+    }
+    return 0;
+}
+
+pozicija pronadi(char* trazena, pozicija head)
+{
+    pozicija temp=NULL;
+    for (temp = head->pok; strcmp(trazena, temp->prezime) != 0 && temp != NULL; temp = temp->pok)
+    {
+        if (temp->pok == NULL)
+    {
+        printf("Nije pronaden element");
+        return NULL;
+    }
+    }
+    
+       return temp;
+}
+
+int obrisi(pozicija head, pozicija nezeljena)
+{
+    pozicija temp = NULL;
+    temp = head;
+    pozicija temppok;
+    for (; temp->pok != nezeljena; temp = temp->pok)
+    {
+        temppok = temp->pok;
+        if (temppok->pok == NULL)
+        {
+            printf("Nije pronaden element");
+                return -1;
+        }
+    }
+    temp->pok = nezeljena->pok;
+      free(nezeljena);
+    
+      return 0;
+}
+
+int dodajiza(pozicija b,pozicija a)
+{
+    b->pok = a->pok;
+    a->pok = b;
+    return 0;
+}
+int dodajprije(pozicija a, pozicija b,pozicija head)
+{
+    pozicija temp=NULL;
+       for (temp = head; temp->pok != b; temp = temp->pok)
+       {
+       }
+       dodajiza(a, temp);
+       
+    return 0;
+}
+
+int mjehuric(pozicija head, pozicija novi)
+{
+    pozicija temp = head->pok;
+
+    for (; strcmp(temp->prezime, novi->prezime)<0 && temp != NULL; temp = temp->pok)
+    {
+    }
+    dodajprije(novi, temp, head);
+
+    return 0;
+}
+
+int upisisort(pozicija head,char* ime,char *prezime, int godina)
+{
+    pozicija nova = NULL;
+    nova = napraviosobu(ime, prezime, godina);
+    return 0;
+}
+
+int ucitizdat(char* imedat,pozicija head)
+{
+    FILE* f=NULL;
+    f = fopen(imedat, "r");
+    char ime[128];
+    char prezime[128];
+    int godina;
+    char buffer[1024];
+    for (; feof(f) == 0; fgets(buffer, 1024, f))
+    {
+        if (sscanf(buffer, " %s %s %d", ime, prezime, &godina) == 3)
+            upisisort(head, ime, prezime, godina);
+    }
+    return 0;
+}
+
+
+int upisudat(char* imedat, pozicija head)
+{
+    FILE* f = NULL;
+    f = fopen(imedat, "w");
+    pozicija temp;
+    for (temp = head->pok; temp != NULL; temp = temp->pok)
+    {
+        fprintf(f, "%s %s %d \n", temp->ime, temp->prezime, temp->godina);
+    }
+
+    return 0;
+}
+
+int main()
+    {
+    osoba head = { .pok = NULL, .ime = {0}, .prezime = {0}, .godina = 0 };
+    pozicija heada = NULL;
+    heada=&head;
+    pozicija a, b, c;
+    a = napraviosobu("prva", "aaa", 12);
+    b = napraviosobu("druga", "bbb", 13);
+    c = napraviosobu("treca", "ccc", 11);
+    dodajnapocetak(b, heada);
+    dodajnapocetak(a, heada);
+    dodajnakraj(c, heada);
+    ispisilistu(heada);
+    pozicija ne=NULL;
+    ne = pronadi("aa", heada);
+    obrisi(heada, ne);
+    ispisilistu(heada);
+    
+    return 0;
+    }
+
+
