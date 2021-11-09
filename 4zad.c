@@ -29,6 +29,7 @@ pozicija stvori(int, int);
 int ispisilistu(pozicija);
 int zbroj(pozicija, pozicija);
 int umnozak(pozicija, pozicija);
+int brisanjeliste(pozicija);
 
 int main()
 {
@@ -83,6 +84,12 @@ int main()
 
     }
     ispisilistu(&headumnoska);
+    for(i=0;i<brred;i++)
+    brisanjliste(&head[i]);
+    brisanjliste(&headzbroja);
+    brisanjliste(&headumnoska);
+
+    
     return 0;
 }
 
@@ -305,4 +312,14 @@ int prebaci(pozicija headstari, pozicija headnovi)
         dodajisort(headnovi, list);
     }
     return 0;
+}
+int brisanjeliste(pozicija head)
+{
+    pozicija temp = head;
+
+    for (; temp != NULL; temp = temp->pok)
+    {
+        free(temp);
+    }
+
 }
