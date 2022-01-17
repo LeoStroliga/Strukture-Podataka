@@ -25,7 +25,6 @@
         pokstabla lijevo;
         pokstabla desno;
     }elementstabla;
-
     pokstabla novielementstabla(char* ime, int broj)
     {
         pokstabla novi=NULL;
@@ -44,9 +43,7 @@
         novi->sljedeci = NULL;
         novi->stablo = NULL;
         return novi;
-
     }
-
     int dodajulistu(pokliste head, pokliste novi)
     {
         if (head->sljedeci == NULL)
@@ -54,11 +51,8 @@
             head->sljedeci = novi;
             return 0;
         }
-
         pokliste temp = head->sljedeci;
         pokliste tempprije=NULL;
-
-
         while (temp != NULL && strcmp(temp->imedrzave, novi->imedrzave)< 0)
         {
             tempprije = temp;
@@ -68,20 +62,13 @@
         tempprije->sljedeci = novi;
         return 0;
     }
-
-
     int dodajustablo(pokstabla prvi, pokstabla novi)
     {
-
-
         pokstabla temp = prvi;
         pokstabla tempprije = NULL;
         int a = 0;
-
-
         while (temp != NULL)
         {
-
             if (temp->broj > novi->broj)
             {
                 a = 1;
@@ -101,16 +88,11 @@
             tempprije->lijevo = novi;
         else if (a == 2)
             tempprije->desno = novi;
-
         return 0;
-
     }
     int ucitajustablo(char* imedat,pokliste drzava)
     {
-
         pokstabla temp=NULL;
-
-
         FILE* f = fopen(imedat, "r");
         char imegrada[50];
         int brojstan;
@@ -123,21 +105,17 @@
         {
             fscanf(f, " %s %d", imegrada, &brojstan);
             temp = novielementstabla(imegrada, brojstan);
-
             dodajustablo(drzava->stablo, temp);
         }
         fclose(f);
         return 0;
     }
-
     int ucitaj(char* imedat, pokliste head)
     {
         FILE* f = fopen(imedat, "r");
         char imedrzave[50];
         char imedatg[50];
         pokliste temp = NULL;
-
-
         while (feof(f) == 0)
         {
             fscanf(f, " %s %s", imedrzave, imedatg);
@@ -150,35 +128,29 @@
     }
     int ispisistablo(pokstabla prvi)
     {
-
         if (prvi != NULL)
         {
             ispisistablo(prvi->lijevo);
             printf("%s %d ", prvi->imegrada, prvi->broj);
             ispisistablo(prvi->desno);
         }
-
         return 0;
     }
-
     int ispisi(pokliste head)
     {
         pokliste temp = head->sljedeci;
         while (temp != NULL)
         {
            printf("%s : ", temp->imedrzave);
-
             ispisistablo(temp->stablo);
             printf("\n");
             temp = temp->sljedeci;
-
         }
         return 0;
     }
-
     pokliste nadidrzavu(pokliste head, char* ime)
     {
-        pokliste temp = head->imedrzave;
+        pokliste temp = head->sljedeci;
         while (temp != NULL)
         {
             if (strcmp(ime, temp->imedrzave) == 0)
@@ -187,28 +159,22 @@
         }
         printf("Nije pronadeno");
         return NULL;
-
     }
-
     int ispisigradove(pokstabla prvi, int broj)
     {
-        pokstabla temp = prvi;
-       // printf("%s", prvi->imegrada);
-        while (temp != NULL)
+          if (prvi != NULL)
         {
-            //printf("%s", prvi->imegrada);
-            if (broj < temp->broj)
+            if (prvi->broj > broj)
             {
-                printf("%s %d ", temp->imegrada, temp->broj);
-                temp = temp->desno;
-                ispisistablo(temp);
-                return 0;
+                ispisigradove(prvi->lijevo, broj);
+                printf("%s %d ", prvi->imegrada, prvi->broj);
             }
-            temp = temp->desno;
+            ispisigradove(prvi->desno, broj);
         }
+        return 0;
     }
-
-
+    
+    }
     int main()
     {
         elementliste head = { .imedrzave = NULL,.sljedeci = NULL,.stablo = NULL };
@@ -221,10 +187,8 @@
        int broj;
        scanf("%d", &broj);
        ispisigradove(pokdrzave->stablo, broj);
-
         return 0;
     }
-
     */
     //b
 
